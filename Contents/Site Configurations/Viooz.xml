@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site site="viooz\.co/movies/.*"
+	plugin=".*/player\.swf"
+	windowWidth="768"
+	windowHeight="415"
+	initialState="loading"
+	version="2.0">
+	
+	<crop x="0" y="0" width="0" height="0" />
+	
+	<!-- loading -->	
+	<state name="loading">
+		<event>
+			<condition>
+				<frameLoaded />
+			</condition>
+			<action>
+                <run script="var c = document.getElementById('contenu'); c.style.position = 'static';" />
+				<run script="var o = document.getElementById('flashstream'); o.style.display = 'none'; o.offsetHeight; o.style.display = 'block';" />
+				<run script="o.style.position = 'absolute'; o.style.zIndex = 5; o.style.top = 0; o.style.left = 0;" />
+				<pause time="6000" />
+				<click x="225" y="384" />
+			</action>
+		</event>
+	</state>
+	
+</site>
