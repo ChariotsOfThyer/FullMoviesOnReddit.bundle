@@ -1,4 +1,3 @@
-
 NAME = "Full Movies on Reddit"
 ART = 'art-default.jpg'
 ICON = 'icon-default.png'
@@ -56,10 +55,3 @@ def GetVideos(url=BASE_URL, count=0, limit=25):
 		))
 
 	return oc
-	
-@route('/video/fullmoviesonreddit/setvideourl')
-def SetVideoUrl(url):
-	if 'putlocker' in url or 'sockshare' in url:	
-		Log('sock|put')
-	
-	return url
