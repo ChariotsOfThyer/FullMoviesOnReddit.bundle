@@ -1,5 +1,4 @@
 def NormalizeURL(url):
-	Log.Debug("Joe Joe Joe Joe Joe Joe Joe")
 	if 'drive' in url:
 		url = url.replace('drive', 'docs', 1)
 	if '/preview' in url:
