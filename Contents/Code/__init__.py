@@ -41,7 +41,7 @@ def GetVideos(url=BASE_URL, count=0, limit=25):
 				if 'search_query' in video_url:
 					continue
 
-				video = URLService.MetadataObjectForURL(video_url + '?title=' + title)
+				video = URLService.MetadataObjectForURL(video_url)
 				video.title = title
 				oc.add(video)
 			except:
