@@ -1,7 +1,9 @@
-NAME = "Full Movies on Reddit"
+NAME = 'Full Movies on Reddit'
 ART = 'art-default.jpg'
 ICON = 'icon-default.png'
+SEARCH_ICON = 'icon-search.png'
 BASE_URL = 'http://www.reddit.com/user/rdjdnd/m/redditvideos.json'
+SEARCH_URL = 'http://www.reddit.com/user/rdjdnd/m/redditvideos/search.json?q=%s&restrict_sr=on'
 
 def Start():
     ObjectContainer.art = R(ART)
@@ -13,7 +15,14 @@ def Start():
 
 @handler('/video/fullmoviesonreddit', NAME, thumb=ICON, art=ART)
 def MainMenu():
-    return GetVideos()
+    oc = ObjectContainer(title2=NAME)
+    oc.add(DirectoryObject(key=Callback(GetVideos), title='Movies'))
+    oc.add(InputDirectoryObject(key=Callback(Search), title='Search', prompt='Search for', thumb=R(SEARCH_ICON)))
+    return oc
+    
+@route('/video/fullmoviesonreddit/search')
+def Search(query):
+    return GetVideos(url=SEARCH_URL % (String.Quote(query, usePlus=True)))
 
 @route('/video/fullmoviesonreddit/getvideos')
 def GetVideos(url=BASE_URL, count=0, limit=25):
