@@ -66,12 +66,14 @@ def GetVideos(url=BASE_URL, count=0, limit=25):
                         summary = video['description'],
                         thumb = video['thumbnail_url'] 
                     ))
+    else:
+        return ObjectContainer(header='Results', message='No Results Found')
 
     if after:
         next_link = url + '?count=' + str(count) + '&after=' + after
         oc.add(DirectoryObject(
             key=Callback(GetVideos, url=next_link, count=count),
             title='next >>'
-        ))
+        ))        
 
     return oc
