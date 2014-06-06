@@ -19,7 +19,7 @@ def MainMenu():
     oc.add(DirectoryObject(key=Callback(GetVideos), title='Movies'))
     oc.add(InputDirectoryObject(key=Callback(Search), title='Search', prompt='Search for', thumb=R(SEARCH_ICON)))
     return oc
-    
+
 @route('/video/fullmoviesonreddit/search')
 def Search(query):
     return GetVideos(url=SEARCH_URL % (String.Quote(query, usePlus=True)))
@@ -44,27 +44,31 @@ def GetVideos(url=BASE_URL, count=0, limit=25):
     if children:
         for child in children:
             data = child['data']
-            if 'media' in data:            
+            if 'media' in data:
                 if data['media'] != None:
                     video = data['media']['oembed']
                 else:
-                    video = data                
-                
+                    video = data
+
                 if 'url' not in video:
-                    video['url'] = data['url']               
-                
+                    video['url'] = data['url']
+
                 if 'description' not in video:
                     video['description'] = ''
-                    
+
                 if 'thumbnail_url' not in video:
-                    video['thumbnail_url'] = ''                
-                   
+                    video['thumbnail_url'] = ''
+
+                if 'title' in data:
+                    video['title'] = data['title']
+
+
                 if URLService.ServiceIdentifierForURL(video['url']) is not None:
                     oc.add(VideoClipObject(
                         url = video['url'],
                         title = video['title'],
                         summary = video['description'],
-                        thumb = video['thumbnail_url'] 
+                        thumb = video['thumbnail_url']
                     ))
     else:
         return ObjectContainer(header='Results', message='No Results Found')
@@ -74,6 +78,6 @@ def GetVideos(url=BASE_URL, count=0, limit=25):
         oc.add(DirectoryObject(
             key=Callback(GetVideos, url=next_link, count=count),
             title='next >>'
-        ))        
+        ))
 
     return oc
